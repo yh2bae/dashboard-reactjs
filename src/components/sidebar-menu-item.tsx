@@ -6,7 +6,7 @@ import { BsChevronRight } from "react-icons/bs";
 import { SideNavItem } from "@/types/sidebar";
 
 export const SideBarMenuItem = ({ item }: { item: SideNavItem }) => {
-  const { toggleCollapse } = useSideBarToggle();
+  const { isCollapsed } = useSideBarToggle();
   const location = useLocation();
   const [subMenuOpen, setSubMenuOpen] = useState(false);
 
@@ -16,7 +16,7 @@ export const SideBarMenuItem = ({ item }: { item: SideNavItem }) => {
 
   const inactiveLink = classNames(
     "flex items-center min-h-[40px] h-full text-sidebar-foreground py-2 px-4 hover:text-sidebar-muted-foreground hover:bg-sidebar-muted rounded-md transition duration-200",
-    { "justify-center": toggleCollapse }
+    { "justify-center": isCollapsed }
   );
 
   const activeLink = classNames(
@@ -41,7 +41,7 @@ export const SideBarMenuItem = ({ item }: { item: SideNavItem }) => {
             onClick={toggleSubMenu}
           >
             <div className="min-w-[20px]">{item.icon}</div>
-            {!toggleCollapse && (
+            {!isCollapsed && (
               <>
                 <span className="ml-3 text-base leading-6 font-semibold">
                   {item.title}
@@ -54,7 +54,7 @@ export const SideBarMenuItem = ({ item }: { item: SideNavItem }) => {
               </>
             )}
           </div>
-          {subMenuOpen && !toggleCollapse && (
+          {subMenuOpen && !isCollapsed && (
             <div className="bg-sidebar-muted border-l-4">
               <div className="grid gap-y-2 px-10 leading-5 py-3">
                 {item.subMenuItems?.map((subItem, idx) => (
@@ -82,7 +82,7 @@ export const SideBarMenuItem = ({ item }: { item: SideNavItem }) => {
           }`}
         >
           <div className="min-w-[20px]">{item.icon}</div>
-          {!toggleCollapse && (
+          {!isCollapsed && (
             <span className="ml-3 leading-6 font-semibold">{item.title}</span>
           )}
         </Link>

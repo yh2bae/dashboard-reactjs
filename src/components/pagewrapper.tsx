@@ -6,13 +6,13 @@ export default function PageWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const { toggleCollapse } = useSideBarToggle();
+  const { isCollapsed } = useSideBarToggle();
 
   const bodyStyle = classNames(
     "bg-background flex flex-col mt-16 py-4 p-4 h-full overflow-y-auto",
     {
-      "sm:pl-[21rem]": !toggleCollapse,
-      "sm:pl-[6.4rem]": toggleCollapse,
+      "sm:pl-[21rem]": !isCollapsed,
+      "sm:pl-[6.4rem]": isCollapsed,
     }
   );
 

@@ -7,17 +7,31 @@ import { SIDENAV_ITEMS } from "@/constants/menu";
 
 export const SideBar = () => {
   const [mounted, setMounted] = useState(false);
-  const { toggleCollapse } = useSideBarToggle();
+  const { isCollapsed, setSidebar } = useSideBarToggle();
 
   const asideStyle = classNames(
-    "sidebar overflow-y-auto overflow-x-auto fixed bg-sidebar h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[99999]",
+    "sidebar overflow-y-auto overflow-x-auto fixed bg-sidebar h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[50]",
     {
-      ["w-[20rem]"]: !toggleCollapse,
-      ["sm:w-[5.4rem] sm:left-0 left-[-100%]"]: toggleCollapse,
+      ["w-[20rem]"]: !isCollapsed,
+      ["sm:w-[5.4rem] sm:left-0 left-[-100%]"]: isCollapsed,
     }
   );
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const handleResize = () => {
+      // Automatically collapse the sidebar below 768px
+      if (window.innerWidth < 768) {
+        setSidebar(true);
+      } else {
+        setSidebar(false);
+      }
+    };
+    // Call once to set initial state
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setSidebar]);
 
   return (
     <aside className={asideStyle}>
@@ -26,7 +40,7 @@ export const SideBar = () => {
         <h3
           className={classNames(
             "pl-2 font-bold text-2xl min-w-max text-sidebar-foreground",
-            { hidden: toggleCollapse }
+            { hidden: isCollapsed }
           )}
         >
           Dashboard

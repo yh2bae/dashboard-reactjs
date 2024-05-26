@@ -5,17 +5,17 @@ import { UserNav } from "./usernav";
 import { ThemeSwitcher } from "./theme-switcher";
 
 export default function Header() {
-  const { toggleCollapse, invokeToggleCollapse } = useSideBarToggle();
+  const { isCollapsed, toggleSidebar } = useSideBarToggle();
 
-  const sidebarToggle = () => {
-    invokeToggleCollapse();
-  };
+  // const sidebarToggle = () => {
+  //   invokeToggleCollapse();
+  // };
 
   const headerStyle = classNames(
-    "bg-sidebar fixed w-full z-[99997] px-4 shadow-sm shadow-slate-500/40",
+    "bg-sidebar fixed w-full z-[49] px-4 shadow-sm shadow-slate-500/40",
     {
-      ["sm:pl-[20rem]"]: !toggleCollapse,
-      ["sm:pl-[5.6rem]"]: toggleCollapse,
+      ["sm:pl-[20rem]"]: !isCollapsed,
+      ["sm:pl-[5.6rem]"]: isCollapsed,
     }
   );
 
@@ -23,7 +23,7 @@ export default function Header() {
     <header className={headerStyle}>
       <div className="h-16 flex items-center justify-between">
         <button
-          onClick={sidebarToggle}
+          onClick={toggleSidebar}
           className="order-2 sm:order-1 shrink-btn float-right bg-sidebar-muted text-sidebar-muted-foreground hover:bg-foreground hover:text-background ml-3 rounded-md w-[30px] h-[30px] flex items-center justify-center shadow-md shadow-black/10 transition duration-300 ease-in-out"
         >
           <BsList />
@@ -32,7 +32,7 @@ export default function Header() {
           <div className="p-2">
             <ThemeSwitcher />
           </div>
-          <div className="h-10 w-10 rounded-full bg-sidebar-muted flex items-center justify-center text-center">
+          <div className="h-10 w-10 flex rounded-full bg-sidebar-muted items-center justify-center text-center">
             <UserNav />
           </div>
         </div>
